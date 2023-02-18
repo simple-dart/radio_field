@@ -1,6 +1,6 @@
 name: simple_dart_radio_field
 description: RadioField Component
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/simple-dart/radio_field
 platforms:
   web:
@@ -10,5 +10,5 @@ environment:
 
 
 dependencies:
-  simple_dart_ui_core: ^0.0.2
+  simple_dart_ui_core: ^0.0.3
 
