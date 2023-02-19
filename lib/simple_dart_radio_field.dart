@@ -6,7 +6,7 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
   final List<RadioButtonInputElement> radioButtons = <RadioButtonInputElement>[];
   ObjectStringAdapter<T> adapter = (object) => object.toString();
   String _groupName = '';
-  final List<T> _optionList = <T>[];
+  final List<T> optionList = <T>[];
 
   RadioField(this._groupName) : super('RadioField') {
     wrap = true;
@@ -22,11 +22,11 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
   }
 
   T? get value {
-    assert(radioButtons.length == _optionList.length,
-        'radioButtons is not actual(${radioButtons.length} != ${_optionList.length})');
-    for (var i = 0; i < _optionList.length; i++) {
+    assert(radioButtons.length == optionList.length,
+        'radioButtons is not actual(${radioButtons.length} != ${optionList.length})');
+    for (var i = 0; i < optionList.length; i++) {
       if (radioButtons[i].checked == true) {
-        return _optionList[i];
+        return optionList[i];
       }
     }
     return null;
@@ -39,8 +39,8 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
       });
       return;
     }
-    for (var i = 0; i < _optionList.length; i++) {
-      if (_optionList[i] == value) {
+    for (var i = 0; i < optionList.length; i++) {
+      if (optionList[i] == value) {
         radioButtons[i].checked = true;
         return;
       }
@@ -58,11 +58,11 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
   }
 
   @override
-  set state(String newValue) => value = _optionList.firstWhere((element) => adapter(element) == newValue);
+  set state(String newValue) => value = optionList.firstWhere((element) => adapter(element) == newValue);
 
   void initOptions(List<T> options) {
     clear();
-    _optionList
+    optionList
       ..clear()
       ..addAll(options);
     options.forEach((option) {
