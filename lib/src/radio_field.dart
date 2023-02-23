@@ -2,11 +2,9 @@ import 'dart:html';
 
 import 'package:simple_dart_ui_core/simple_dart_ui_core.dart';
 
-import 'default_display_panel.dart';
-
 class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, MixinDisable implements StateComponent<T?> {
   final List<RadioButtonInputElement> radioButtons = <RadioButtonInputElement>[];
-  ObjectDisplayPanelAdapter<T> displayPanelAdapter = labelDisplayPanelAdapter;
+  ObjectRendererAdapter<T> objectRendererAdapter = (object) => StringRenderer<T>()..object = object;
   ObjectStringAdapter<T> adapter = (object) => object.toString();
   String _groupName = '';
   final List<T> optionList = <T>[];
@@ -65,6 +63,7 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
 
   void initOptions(List<T> options) {
     clear();
+    radioButtons.clear();
     optionList
       ..clear()
       ..addAll(options);
@@ -72,12 +71,13 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
       final rowPanel = Panel()..vAlign = Align.center;
       final radioButton = RadioButtonInputElement()..name = groupName;
 
-      final displayPanel = displayPanelAdapter(option);
-      displayPanel.element.onClick.listen((e) {
+      final objectRenderer = objectRendererAdapter(option);
+      objectRenderer.element.onClick.listen((e) {
         if (disabled) {
           return;
         }
         radioButton.checked = true;
+        fireValueChange(value, option);
       });
 
       radioButton.onChange.listen((ev) {
@@ -85,7 +85,7 @@ class RadioField<T> extends PanelComponent with ValueChangeEventSource<T?>, Mixi
       });
       radioButtons.add(radioButton);
       rowPanel.element.children.add(radioButton);
-      rowPanel.add(displayPanel);
+      rowPanel.add(objectRenderer);
       add(rowPanel);
     });
   }

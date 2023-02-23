@@ -1,3 +1,7 @@
+## 0.0.5
+
+- Update ui_core
+
 ## 0.0.4
 
 - Add ability to set custom display
